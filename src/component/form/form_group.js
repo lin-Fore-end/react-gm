@@ -1,15 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 import _ from 'lodash'
 import Validator from '../../validator'
 
-class Form extends React.Component {
+class FormGroup extends React.Component {
   constructor (props) {
     super(props)
     this.handleSubmit = ::this.handleSubmit
     this.state = {
-      canValidate: props.canValidate || false
+      canValidate: false
     }
   }
 
@@ -58,7 +57,6 @@ class Form extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault()
-
     this.props.onSubmit(e)
 
     const err = this.validateAll()
@@ -71,56 +69,34 @@ class Form extends React.Component {
       canValidate: !!err
     })
   }
-
   render () {
     const {
-      inline,
-      horizontal,
-      labelWidth,
       className,
       children,
       onSubmitValidated, //eslint-disable-line
       ...rest
     } = this.props
 
-    const childList = _.map(React.Children.toArray(children), (child, i) => {
-      return (child.type.displayName === 'FormItem' || child.type.displayName === 'FormBlock') ? React.cloneElement(child, Object.assign({
-        key: i,
-        horizontal,
-        inline,
-        labelWidth,
-        canValidate: this.state.canValidate
-      }, child.props)) : child
-    })
-
     return (
       <form
         {...rest}
-        className={classNames('gm-form', {
-          'form-inline': inline,
-          'form-horizontal': horizontal
-        }, className)}
+        className={className}
         onSubmit={this.handleSubmit}
       >
-        {childList}
+        {children}
       </form>
     )
   }
 }
 
-Form.propTypes = {
-  inline: PropTypes.bool,
-  horizontal: PropTypes.bool,
-  labelWidth: PropTypes.string, // horizontal true 才有效
+FormGroup.propTypes = {
   onSubmit: PropTypes.func, // 默认处理了 preventDefault,
   onSubmitValidated: PropTypes.func
 }
 
-Form.defaultProps = {
-  inline: false,
-  horizontal: false,
+FormGroup.defaultProps = {
   onSubmit: _.noop,
   onSubmitValidated: _.noop
 }
 
-export default Form
+export default FormGroup

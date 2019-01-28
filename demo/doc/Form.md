@@ -1,7 +1,7 @@
 ---
 imports:
     import {
-        Form, FormItem, FormButton, FormBlock,
+        Form, FormItem, FormButton, FormBlock, FormGroup,
         Validator, 
         Dropper, 
         Radio, RadioGroup,
@@ -83,7 +83,7 @@ class FormWrap3 extends React.Component {
                     />
                 </FormItem>
                 <FormItem label="image">
-                    <Dropper/>
+                    <Dropper onDrop={() => {}}/>
                 </FormItem>
                 <FormButton>
                     <button className="btn btn-primary" type="submit">提交</button>
@@ -143,7 +143,7 @@ class FormItemWrap extends React.Component {
                 </FormItem>
                 <FormItem label="网址">
                     <div>
-                        <Dropper/> 其他东西
+                        <Dropper onDrop={() => {}}/> 其他东西
                     </div>
                 </FormItem>
                 <FormItem label="多选（行内排列）">
@@ -343,3 +343,70 @@ class FormBlockWrap extends React.Component {
 
 ### Props
 - `block (array)` 提供children的比例，比如2:1是[2,1]。 不提供根据等分。
+
+
+## FormGroup
+
+::: demo FormGroup
+```js
+class FormGroupWrap extends React.Component {
+    render() {
+        return (
+            <div>
+                <FormGroup onSubmitValidated={this.handleSubmit}>
+                    <Form>
+                        <FormBlock>
+                            <FormItem label="姓名" required inline width="200px" validate={Validator.create([], '')}>
+                                <input type="text"/>
+                            </FormItem>
+                            <FormItem label="身高" inline>
+                                 <input type="text"/>
+                            </FormItem>
+                        </FormBlock>
+                        <FormItem label="姓名" required validate={Validator.create([], '')}>
+                            <input type="text"/>
+                        </FormItem>
+                        <FormItem label="描述">
+                             <textarea type="text" name="desc"/>
+                        </FormItem>
+                    </Form>
+                    <Form horizontal labelWidth="50px">
+                        <FormBlock>
+                            <FormItem label="姓名" required inline width="200px" validate={Validator.create([], '')}>
+                                <input type="text"/>
+                            </FormItem>
+                            <FormItem label="身高" inline>
+                                <input type="text"/>
+                            </FormItem>
+                        </FormBlock>
+                        <FormBlock block={[2, 1]}>
+                             <FormItem label="姓名" required inline width="200px" validate={Validator.create([], '')}>
+                                <input type="text"/>
+                             </FormItem>
+                             <FormItem label="身高" inline>
+                                <input type="text"/>
+                             </FormItem>
+                        </FormBlock>
+                        <FormItem label="姓名" required validate={Validator.create([], '')}>
+                            <input type="text"/>
+                        </FormItem>
+                        <FormItem label="描述">
+                            <textarea type="text" name="desc"/>
+                        </FormItem>
+                    </Form>
+                    <FormButton>
+                        <button className="btn btn-primary" type="submit">提交</button>
+                    </FormButton>
+                </FormGroup>
+            </div>
+        );
+    }
+}
+```
+```jsx
+<FormGroupWrap/>
+```
+:::
+
+### Props
+- `block (array)` 提供children的比例
