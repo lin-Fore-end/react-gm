@@ -1,6 +1,6 @@
 ---
 imports:
-    import {Sheet, SheetColumn, Flex} from '../../src/index';
+    import {Sheet, SheetColumn, Flex, FormItem, RadioGroup, Radio} from '../../src/index';
     import ReactDOM from 'react-dom';
 ---
 ## Sheet
@@ -194,16 +194,19 @@ class SheetWithTableDom extends React.Component {
                {
                    id: 3,
                    name: '小明',
-                   age: '10'
+                   age: '10',
+                   stock_method: 1
                }, {
                    id: 4,
                    name: '小红',
                    age: '15',
-                   __gm_expanded: true
+                   __gm_expanded: true,
+                   stock_method: 1
                }, {
                   id: 5,
                   name: '小蓝',
-                  age: '20'
+                  age: '20',
+                  stock_method: 1
                }
             ]
         };
@@ -215,7 +218,17 @@ class SheetWithTableDom extends React.Component {
         console.log(Sheet.findTableDOM(this.refSheet));
     }
 
+    handleChangeRadio = (index, val) => {
+        let {data} = this.state
+        data[index].stock_method = val
+        this.setState({
+            data
+        })
+    }
+
+
     render() {
+        console.log('222', this.state.data)
         return (
             <div style={{width: '500px'}}>
                 <Sheet
@@ -225,6 +238,24 @@ class SheetWithTableDom extends React.Component {
                     <SheetColumn name="id" field="id"/>
                     <SheetColumn name="name" field="name"/>
                     <SheetColumn name="name" field="name"/>
+                    <SheetColumn name="stock_method" field="stock_method">
+                        {(stock_method, index) => {
+                            return (
+                                <FormItem label='换算方式'>
+                                    <RadioGroup
+                                        name='stock_method'
+                                        className='gm-margin-bottom-10'
+                                        value={stock_method}
+                                        onChange={this.handleChangeRadio.bind(this, index)}
+                                    >
+                                        <Radio value={1}>取固定值</Radio>
+                                        <Radio value={2}>按下单数设置</Radio>
+                                    </RadioGroup>
+                                </FormItem>
+                            )
+
+                        }}
+                    </SheetColumn>
                 </Sheet>
                 <button onClick={this.getDOM}>获取table dom</button>
             </div>
