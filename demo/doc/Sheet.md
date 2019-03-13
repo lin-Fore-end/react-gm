@@ -208,7 +208,8 @@ class SheetWithTableDom extends React.Component {
                   age: '20',
                   stock_method: 1
                }
-            ]
+            ],
+            stock_method: 1
         };
 
         this.getDOM = ::this.getDOM;
@@ -219,10 +220,17 @@ class SheetWithTableDom extends React.Component {
     }
 
     handleChangeRadio = (index, val) => {
+        console.log('333333', val, index)
         let {data} = this.state
         data[index].stock_method = val
         this.setState({
             data
+        })
+    }
+
+    handleChangeStockMethod = (val) => {
+        this.setState({
+            stock_method: val
         })
     }
 
@@ -231,6 +239,17 @@ class SheetWithTableDom extends React.Component {
         console.log('222', this.state.data)
         return (
             <div style={{width: '500px'}}>
+                <FormItem label='换算方式'>
+                    <RadioGroup
+                        name='stock_method'
+                        className='gm-margin-bottom-10'
+                        value={this.state.stock_method}
+                        onChange={this.handleChangeStockMethod}
+                    >
+                        <Radio value={1}>取固定值</Radio>
+                        <Radio value={2}>按下单数设置</Radio>
+                    </RadioGroup>
+                </FormItem>
                 <Sheet
                     list={this.state.data}
                     ref={ref => this.refSheet = ref}
@@ -240,6 +259,7 @@ class SheetWithTableDom extends React.Component {
                     <SheetColumn name="name" field="name"/>
                     <SheetColumn name="stock_method" field="stock_method">
                         {(stock_method, index) => {
+                            console.log('stock_method', stock_method)
                             return (
                                 <FormItem label='换算方式'>
                                     <RadioGroup
@@ -248,8 +268,8 @@ class SheetWithTableDom extends React.Component {
                                         value={stock_method}
                                         onChange={this.handleChangeRadio.bind(this, index)}
                                     >
-                                        <Radio value={1}>取固定值</Radio>
-                                        <Radio value={2}>按下单数设置</Radio>
+                                        <Radio key={1} value={1}>取固定值</Radio>
+                                        <Radio key={2} value={2}>按下单数设置</Radio>
                                     </RadioGroup>
                                 </FormItem>
                             )
