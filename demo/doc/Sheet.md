@@ -1,6 +1,6 @@
 ---
 imports:
-    import {Sheet, SheetColumn, Flex, FormItem, RadioGroup, Radio} from '../../src/index';
+    import {Sheet, SheetColumn, Flex, FormItem, RadioGroup, Radio, Form, Checkbox, CheckboxGroup} from '../../src/index';
     import ReactDOM from 'react-dom';
 ---
 ## Sheet
@@ -195,18 +195,21 @@ class SheetWithTableDom extends React.Component {
                    id: 3,
                    name: '小明',
                    age: '10',
-                   stock_method: 1
+                   stock_method: 1,
+                   city: []
                }, {
                    id: 4,
                    name: '小红',
                    age: '15',
                    __gm_expanded: true,
-                   stock_method: 1
+                   stock_method: 1,
+                   city: []
                }, {
                   id: 5,
                   name: '小蓝',
                   age: '20',
-                  stock_method: 1
+                  stock_method: 1,
+                  city: []
                }
             ],
             stock_method: 1
@@ -220,7 +223,6 @@ class SheetWithTableDom extends React.Component {
     }
 
     handleChangeRadio = (index, val) => {
-        console.log('333333', val, index)
         let {data} = this.state
         data[index].stock_method = val
         this.setState({
@@ -234,22 +236,33 @@ class SheetWithTableDom extends React.Component {
         })
     }
 
+    handleChangeCity = (index, val) => {
+        let {data} = this.state
+        data[index].city = val
+        this.setState({
+            data
+        })
+    }
+
 
     render() {
         console.log('222', this.state.data)
         return (
             <div style={{width: '500px'}}>
-                <FormItem label='换算方式'>
-                    <RadioGroup
-                        name='stock_method'
-                        className='gm-margin-bottom-10'
-                        value={this.state.stock_method}
-                        onChange={this.handleChangeStockMethod}
-                    >
-                        <Radio value={1}>取固定值</Radio>
-                        <Radio value={2}>按下单数设置</Radio>
-                    </RadioGroup>
-                </FormItem>
+                <Form>
+                    <FormItem label='换算方式'>
+                        <RadioGroup
+                            name='stock_method'
+                            className='gm-margin-bottom-10'
+                            value={this.state.stock_method}
+                            onChange={this.handleChangeStockMethod}
+                        >
+                            <Radio value={1}>取固定值</Radio>
+                            <Radio value={2}>按下单数设置</Radio>
+                        </RadioGroup>
+                    </FormItem>
+                </Form>
+
                 <Sheet
                     list={this.state.data}
                     ref={ref => this.refSheet = ref}
@@ -261,19 +274,35 @@ class SheetWithTableDom extends React.Component {
                         {(stock_method, index) => {
                             console.log('stock_method', stock_method)
                             return (
-                                <FormItem label='换算方式'>
+                                <FormItem key={index}>
                                     <RadioGroup
-                                        name='stock_method'
+                                        name={'stock_method_' + index}
                                         className='gm-margin-bottom-10'
                                         value={stock_method}
                                         onChange={this.handleChangeRadio.bind(this, index)}
                                     >
-                                        <Radio key={1} value={1}>取固定值</Radio>
-                                        <Radio key={2} value={2}>按下单数设置</Radio>
+                                        <Radio value={1}>取固定值</Radio>
+                                        <Radio value={2}>按下单数设置</Radio>
                                     </RadioGroup>
                                 </FormItem>
                             )
-
+                        }}
+                    </SheetColumn>
+                    <SheetColumn field="city" name="city">
+                        {(city, index) => {
+                            return (
+                                <FormItem key={index}>
+                                    <CheckboxGroup
+                                        name="city"
+                                        value={city}
+                                        onChange={this.handleChangeCity.bind(this, index)}
+                                    >
+                                        <Checkbox value={1} disabled>广州</Checkbox>
+                                        <Checkbox value={2}>深圳</Checkbox>
+                                        <Checkbox value={3}>成都</Checkbox>
+                                    </CheckboxGroup>
+                                </FormItem>
+                            )
                         }}
                     </SheetColumn>
                 </Sheet>

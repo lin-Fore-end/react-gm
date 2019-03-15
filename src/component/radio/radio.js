@@ -23,6 +23,7 @@ class Radio extends React.Component {
           <input
             type='radio'
             className='gm-input-radio'
+            // className={classNames('gm-input-radio', { 'active': checked })}
             name={name}
             value={value}
             checked={checked}

@@ -137,7 +137,8 @@ class FormItemWrap extends React.Component {
             email: '',
             url: '',
             cityList: [],
-            city: null
+            city: null,
+            city1: null
         };
     }
 
@@ -186,6 +187,16 @@ class FormItemWrap extends React.Component {
                         <Radio value={2}>深圳</Radio>
                     </RadioGroup>
                 </FormItem>
+                <FormItem label="单选">
+                                    <RadioGroup
+                                        name="city1"
+                                        value={this.state.city1}
+                                        onChange={this.handleChangeOther.bind(this, 'city1')}
+                                    >
+                                        <Radio value={1}>广州</Radio>
+                                        <Radio value={2}>深圳</Radio>
+                                    </RadioGroup>
+                                </FormItem>
                 <FormButton>
                     <button className="btn btn-primary" type="submit">提交</button>
                 </FormButton>
