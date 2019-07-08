@@ -8,6 +8,7 @@ import _ from 'lodash'
  *
  * 主要配合 Checkbox 一起使用
  */
+
 const CheckboxGroup = props => {
   const {
     onChange,
@@ -60,7 +61,7 @@ CheckboxGroup.propTypes = {
   onChange: PropTypes.func,
   /** 定义行内排列 */
   inline: PropTypes.bool,
-  /** 定义多选框的间隔大小，以列数的大小进行定义 */
+  /** 定义多选框的间隔大小，以列数的形式进行定义 */
   col: PropTypes.number,
 
   children: PropTypes.any,
