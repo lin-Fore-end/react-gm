@@ -5,7 +5,7 @@ import FixedColumnsTableHOC from './fixed_columns_table'
 import EditTable from './edit_table'
 import { OperationHeader, EditTableOperation } from './util'
 
-import { DatePicker, InputNumberV2, MoreSelect } from '../src/index'
+import { DatePicker, InputNumberV2, MoreSelect, Flex } from '../src/index'
 
 const FixedColumnsTable = FixedColumnsTableHOC(Table)
 
@@ -413,16 +413,19 @@ storiesOf('Table', module)
             id: 'total_money',
             minWidth: 160,
             Cell: ({ index, original }) => (
-              <InputNumberV2
-                value={original.total_money}
-                onChange={value => console.log(value, index)}
-              />
+              <Flex justifyCenter row>
+                <InputNumberV2
+                  value={original.total_money}
+                  onChange={value => console.log(value, index)}
+                />
+                <span>吾问无为谓</span>
+                <div>2344444</div>
+              </Flex>
             )
           },
           {
             Header: '单据状态',
-            accessor: 'status',
-            minWidth: 120
+            accessor: 'status'
           },
           {
             Header: 'sku_money',
