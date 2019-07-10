@@ -7,7 +7,7 @@ import MoreSelect from './index'
 const data = [
   {
     value: 1,
-    text: '南山'
+    text: '科技园科技园科技园科技园科技园科技园科技园'
   },
   {
     value: 2,
@@ -57,7 +57,7 @@ const dataGroup = [
     children: [
       {
         value: 1,
-        text: '科技园'
+        text: '科技园科技园科技园科技园科技园科技园科技园'
       },
       {
         value: 2,
@@ -87,7 +87,7 @@ const dataGroup = [
 const moreselectStatus = {
   selected: {
     value: 1,
-    text: '科技园'
+    text: '科技园科技园科技园科技园科技园科技园科技园'
   },
   selectValue(selected) {
     this.selected = selected
@@ -120,6 +120,7 @@ storiesOf('MoreSelect', module)
       data={data}
       selected={moreselectV1.selected}
       onSelect={selected => moreselectV1.selectValue(selected)}
+      style={{ width: '100px' }}
     />
   ))
   .add('group select', () => (

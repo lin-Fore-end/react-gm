@@ -6,7 +6,7 @@ import InputNumber from './index'
 import InputNumberV2 from './number'
 
 const inputNumberStatus = {
-  value: null,
+  value: 22222222222222.33,
   setNumber(num) {
     this.value = num
   }
@@ -30,6 +30,7 @@ storiesOf('InputNumber', module)
   .add('new', () => (
     <InputNumberV2
       value={newStore.value}
+      style={{ width: '80px' }}
       onChange={value => {
         // console.log('onChange', value)
         newStore.setNumber(value)
