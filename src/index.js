@@ -11,11 +11,12 @@ import {
   QuickDesc,
   QuickDetail
 } from './deprecated/quick'
+import PaginationFuck from './deprecated/pagination_fuck/pagination_fuck'
+
 // 废弃的结束
 
 import Pagination from './component/pagination/pagination'
 import PaginationText from './component/pagination/pagination_text'
-import PaginationNew from './component/pagination/pagination_new'
 import PaginationBox from './component/pagination/pagination_box'
 import Dropper from './component/dropper/index'
 import {
@@ -142,10 +143,10 @@ export {
   TreeSelect,
   Trigger,
   PaginationText,
+  PaginationFuck,
   // 废弃的结束
 
   Pagination,
-  PaginationNew,
   PaginationBox,
   Form,
   FormItem,
