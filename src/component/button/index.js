@@ -65,5 +65,4 @@ Button.propTypes = {
 Button.defaultProps = {
   onClick: _.noop
 }
-
 export default Button
