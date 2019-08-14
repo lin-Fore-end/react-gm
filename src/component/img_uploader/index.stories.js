@@ -20,7 +20,6 @@ storiesOf('ImgUploader', module).add('default', () => (
     onUpload={(i, e) => console.log('onUpload\n', i, e)}
     onChange={(i, e) => console.log('onChange\n', i, e)}
     accept={'image/*'}
-    // size={100000}
     statement={statement}
     multiple
   />
