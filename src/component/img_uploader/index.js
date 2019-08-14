@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Uploader from '../uploader/index'
 import Tip from '../tip/index'
@@ -9,16 +9,16 @@ import SvgPlus from '../../../svg/plus.svg'
 function ImgUploader(props) {
   const {
     data,
+    onUpload,
+    onChange,
+
     contentSize,
     size,
     accept,
     multiple,
-    statement,
-    onUpload,
-    onRemove
-  } = props
 
-  const [imgData, setImgData] = useState(data)
+    desc
+  } = props
 
   const handleImgAdd = (img, e) => {
     const arr = []
@@ -28,24 +28,19 @@ function ImgUploader(props) {
         return
       }
       arr.push(i.preview)
-      const arrTotal = [...imgData, ...arr]
-      setImgData(arrTotal)
     }
     onUpload(arr, e)
   }
 
   const handleImgRemove = (i, e) => {
-    const arr = [...imgData]
-    arr.splice(i, 1)
-    setImgData(arr)
-    onRemove(arr)
+    onChange(data[i], e)
   }
 
   return (
     <div className='gm-picWall-container'>
       <div className='gm-picWall-box'>
-        {imgData
-          ? imgData.map((imgUrl, index) => (
+        {data
+          ? data.map((imgUrl, index) => (
               <div className='gm-picWall-imgbox' key={index}>
                 <img
                   src={imgUrl}
@@ -57,7 +52,7 @@ function ImgUploader(props) {
                 <span
                   className='gm-picWall-icon'
                   data-index={index}
-                  onClick={e => handleImgRemove(index, e)}
+                  onClick={() => handleImgRemove(index)}
                 >
                   <SvgCloseCircle
                     style={{ background: '#fff', borderRadius: '50%' }}
@@ -67,8 +62,8 @@ function ImgUploader(props) {
             ))
           : null}
         <Uploader
-          accept={accept}
-          onUpload={(img, e) => handleImgAdd(img, e)}
+          accept={accept || 'image/*'}
+          onUpload={img => handleImgAdd(img)}
           multiple={multiple}
         >
           <span>
@@ -78,9 +73,9 @@ function ImgUploader(props) {
         </Uploader>
       </div>
 
-      {statement ? (
+      {desc ? (
         <div className='gm-picWall-state'>
-          <p>{statement}</p>
+          <p>{desc}</p>
         </div>
       ) : null}
     </div>
@@ -96,14 +91,15 @@ ImgUploader.defaultProps = {
 }
 
 ImgUploader.propTypes = {
-  /** 上传图片的数据，以一个对象数组传进 */
+  /** 上传图片的数据，以一个数组传进，形式 [url,url,url] */
   data: PropTypes.array.isRequired,
-  /** 增加操作触发的事件 */
+  /** 增加、删除操作触发的事件 */
+  onChange: PropTypes.func.isRequired,
+  /** 上传操作触发的事件 */
   onUpload: PropTypes.func.isRequired,
-  /** 删除操作触发的事件 */
-  onRemove: PropTypes.func.isRequired,
+
   /** 上传接受的图片类型 */
-  accept: PropTypes.string.isRequired,
+  accept: PropTypes.string,
   /** 是否可以多选 */
   multiple: PropTypes.bool,
   /** 图片的尺寸 */
@@ -113,8 +109,9 @@ ImgUploader.propTypes = {
   }),
   /** 上传图片的大小，单位为：kb */
   size: PropTypes.number,
+
   /** 描述 */
-  statement: PropTypes.string
+  desc: PropTypes.string
 }
 
 export default ImgUploader
