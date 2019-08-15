@@ -180,37 +180,38 @@ HOC 可以相互组合使用，但是请注意使用顺序
         <DiyTable
           id='diy-table'
           data={store.data}
+          diyGroupSorting={['基础字段', '商户', '其他', '时间和人员']} // 组的排序
           columns={[
-            {
-              Header: '入库单号',
-              accessor: 'id',
-              diyEnable: false,
-              diyGroupName: '基础'
-            },
-            {
-              Header: '价格',
-              accessor: 'sku_money',
-              diyEnable: false,
-              diyGroupName: '基础'
-            },
             {
               Header: '删除时间',
               accessor: 'date_time',
               diyEnable: true,
               show: false,
-              diyGroupName: '时间'
+              diyGroupName: '时间和人员'
             },
             {
               Header: '建单时间',
               accessor: 'settle_supplier_id',
               diyEnable: true,
-              diyGroupName: '时间'
+              diyGroupName: '时间和人员'
             },
             {
               Header: '状态',
               accessor: 'status',
               // diyEnable 不写也可以,默认true,
               diyGroupName: '其他'
+            },
+            {
+              Header: '入库单号',
+              accessor: 'id',
+              diyEnable: false,
+              diyGroupName: '基础字段'
+            },
+            {
+              Header: '价格',
+              accessor: 'sku_money',
+              diyEnable: false,
+              diyGroupName: '基础字段'
             },
             {
               Header: '供应商户ID',

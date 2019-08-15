@@ -224,14 +224,61 @@
   }
 }
 
-.gm-react-table-diy-operator {
-  .gm-react-table-diy-selector {
+.gm-react-table-diy-modal {
+  .gm-react-table-diy-modal-title {
+    background-color: @gm-back-body-bg;
+  }
+
+  .gm-react-table-diy-modal-selector {
+    & > div {
+      padding: 10px;
+    }
+
     width: 80%;
     border-right: 1px solid @gm-border-color;
   }
 
-  .gm-react-table-diy-list {
+  .gm-react-table-diy-modal-sort-list {
+    & > div {
+      padding: 10px;
+    }
+
     width: 20%;
+
+    .gm-react-table-diy-modal-sort-list-ul {
+      list-style-type: none;
+      padding: 0;
+
+      .gm-react-table-diy-modal-sort-list-li {
+        position: relative;
+        user-select: none;
+        padding: 8px;
+        margin: 0 0 8px 0;
+
+        &:before {
+          content: '\2022'; //圆点
+          font-size: 16px;
+          margin-right: 2px;
+        }
+
+        .gm-react-table-diy-modal-sort-list-li-remove {
+          position: absolute;
+          top: 12px;
+          right: 15px;
+        }
+      }
+
+      .gm-react-table-diy-modal-sort-list-li.active {
+        background: #d7e8fc;
+      }
+
+      .gm-react-table-diy-modal-sort-list-li:hover {
+        background: #d7e8fc;
+      }
+    }
+  }
+
+  .gm-react-table-diy-modal-btn {
   }
 }
 
