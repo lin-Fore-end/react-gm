@@ -4,6 +4,9 @@
 @import '../src/css/variables.less';
 @import './cell.less';
 
+@react-table-even: #f0f1f3;
+@react-table-sub: #f4f7ff;
+
 .gm-react-table.ReactTable {
   .rt-resizer {
     width: 1rem;
@@ -123,7 +126,7 @@
     }
 
     .rt-tr {
-      min-height: 40px;
+      min-height: 60px;
     }
 
     .rt-th,
@@ -138,7 +141,7 @@
     }
 
     .rt-tr .rt-th {
-      background: #f2f3f8;
+      background: @react-table-even;
     }
 
     // 调整后不会溢出，所以不做 overflow，排序按钮就不会被 hidden 了
@@ -179,7 +182,7 @@
     }
 
     .rt-tr.-even .rt-td {
-      background-color: #f5f5f7;
+      background-color: @react-table-even;
     }
   }
 
@@ -187,6 +190,10 @@
     .rt-tbody {
       .rt-tr:hover .rt-td {
         background-color: @table-bg-hover;
+
+        .react-table-expand {
+          color: @brand-primary;
+        }
       }
     }
   }
@@ -304,7 +311,7 @@
     }
 
     &.-even {
-      background-color: #f5f5f7;
+      background-color: @react-table-even;
     }
 
     &-left {
@@ -411,5 +418,53 @@
       color: rgba(219, 0, 0, 0.3);
       cursor: default;
     }
+  }
+}
+
+.gm-react-sub-table.ReactTable {
+  border: 1px solid @brand-primary;
+
+  .rt-tbody .rt-tr-group {
+    border-bottom: none;
+  }
+
+  .rt-thead {
+    .rt-tr .rt-th {
+      background: @react-table-sub;
+      border-bottom: 1px solid @gm-border-color;
+
+      &:first-child {
+        border-bottom: 1px solid transparent;
+      }
+    }
+  }
+
+  &.-striped {
+    .rt-tr.-odd .rt-td {
+      background-color: @react-table-sub;
+      border-bottom: 1px solid @gm-border-color;
+
+      &:first-child {
+        border-bottom: 1px solid transparent;
+      }
+    }
+
+    .rt-tr.-even .rt-td {
+      background-color: @react-table-sub;
+    }
+  }
+
+  &.-highlight {
+    .rt-tbody {
+      .rt-tr:hover .rt-td {
+        background-color: @table-bg-hover;
+      }
+    }
+  }
+}
+
+.react-table-closeup {
+  &.active {
+    color: @brand-primary;
   }
 }

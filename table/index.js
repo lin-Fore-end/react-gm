@@ -1,6 +1,7 @@
 import 'react-table/react-table.css'
 
 import Table from './table'
+import SubTable from './table/subTable'
 import EditTable from './edit/edit_table'
 
 import diyTableHOC from './hoc/diy_table'
@@ -36,6 +37,7 @@ const TableUtil = {
 export {
   Table,
   EditTable,
+  SubTable,
   SelectTable,
   diyTableHOC,
   fixedColumnsTableHOC,

@@ -5,7 +5,8 @@ import {
   fixedColumnsTableHOC,
   diyTableHOC,
   selectTableHOC,
-  expandTableHOC
+  expandTableHOC,
+  SubTable
 } from '../index'
 import { observable } from 'mobx/lib/mobx'
 import _ from 'lodash'
@@ -28,7 +29,8 @@ const store = observable({
       date_time: '2018-07-25',
       delta_money: 0,
       settle_supplier_id: 'T10953',
-      address: null
+      address: null,
+      subTable: [{ id: 1, name: 'a' }, { id: 2, name: 2 }]
     },
     {
       total_money: 176,
@@ -44,7 +46,8 @@ const store = observable({
       address: {
         value: 9,
         text: '西乡9'
-      }
+      },
+      subTable: [{ id: 1, name: 'a' }, { id: 2, name: 2 }]
     },
     {
       total_money: 279,
@@ -60,7 +63,8 @@ const store = observable({
       address: {
         value: 4,
         text: '宝安'
-      }
+      },
+      subTable: [{ id: 1, name: 'a' }, { id: 2, name: 2 }]
     }
   ],
   sortTimeType: 'asc',
@@ -276,6 +280,14 @@ HOC 可以相互组合使用，但是请注意使用顺序
           accessor: 'supplier_name'
         }
       ]}
-      SubComponent={() => <div>SubComponent</div>}
+      SubComponent={item => (
+        <SubTable
+          data={item.original.subTable}
+          columns={[
+            { Header: '序号', accessor: 'id' },
+            { Header: '名字', accessor: 'name' }
+          ]}
+        />
+      )}
     />
   ))

@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import Table from '../table'
-import SVGPlus from '../../svg/plus.svg'
-import SVGMinus from '../../svg/minus.svg'
+import SVGExpand from '../../svg/expand.svg'
+import SVGCloseup from '../../svg/closeup.svg'
 
 function expandTableHOC(Component) {
   class ExpandTable extends React.Component {
@@ -45,7 +45,11 @@ function expandTableHOC(Component) {
 
       return (
         <div className='gm-cursor' onClick={this.handleExpandAll}>
-          {isAllExpanded ? <SVGMinus /> : <SVGPlus />}
+          {isAllExpanded ? (
+            <SVGCloseup className='react-table-closeup active' />
+          ) : (
+            <SVGExpand />
+          )}
         </div>
       )
     }
@@ -53,7 +57,15 @@ function expandTableHOC(Component) {
     renderExpander = ({ index }) => {
       const { expanded } = this.state
 
-      return <div>{expanded[index] ? <SVGMinus /> : <SVGPlus />}</div>
+      return (
+        <div>
+          {expanded[index] ? (
+            <SVGCloseup className='react-table-closeup active' />
+          ) : (
+            <SVGExpand className='react-table-expand' />
+          )}
+        </div>
+      )
     }
 
     handleExpandedChange = expanded => {

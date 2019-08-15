@@ -96,25 +96,23 @@ function diyTableHOC(Component) {
     render() {
       const { columns } = this.state
       return (
-        <>
-          <Component
-            {...this.props}
-            columns={[
-              {
-                Header: () => (
-                  <SVGSetting
-                    style={{ cursor: 'pointer' }}
-                    onClick={this.handleModalShow}
-                  />
-                ),
-                maxWidth: 30,
-                accessor: '_setting', // 不重要,随便写
-                Cell: () => null
-              },
-              ...columns
-            ]}
-          />
-        </>
+        <Component
+          {...this.props}
+          columns={[
+            {
+              Header: () => (
+                <SVGSetting
+                  style={{ cursor: 'pointer' }}
+                  onClick={this.handleModalShow}
+                />
+              ),
+              maxWidth: 30,
+              accessor: '_setting', // 不重要,随便写
+              Cell: () => null // 只是用来占据空间
+            },
+            ...columns
+          ]}
+        />
       )
     }
   }
