@@ -1,8 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
-import { Storage, Modal } from '../../../src'
-import SVGSetting from '../../../svg/success-circle-o.svg'
+import { Storage, Modal, Popover } from '../../../src'
+import SVGSetting from '../../../svg/setting.svg'
 import { getColumnKey } from '../../util'
 import Table from '../../table'
 import { devWarn } from '../../../src/util'
@@ -101,10 +101,18 @@ function diyTableHOC(Component) {
           columns={[
             {
               Header: () => (
-                <SVGSetting
-                  style={{ cursor: 'pointer' }}
-                  onClick={this.handleModalShow}
-                />
+                <Popover
+                  top
+                  arrowLeft='2px'
+                  popup={<div className='gm-padding-5'>表头设置</div>}
+                  showArrow
+                  type='hover'
+                >
+                  <SVGSetting
+                    className='gm-cursor gm-text-hover-primary'
+                    onClick={this.handleModalShow}
+                  />
+                </Popover>
               ),
               maxWidth: 30,
               accessor: '_setting', // 不重要,随便写

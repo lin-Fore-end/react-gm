@@ -48,7 +48,7 @@ function expandTableHOC(Component) {
           {isAllExpanded ? (
             <SVGCloseup className='react-table-closeup active' />
           ) : (
-            <SVGExpand />
+            <SVGExpand className='react-table-expand' />
           )}
         </div>
       )
