@@ -86,13 +86,11 @@ const store = observable({
 
     this.selected = selected
   },
-  toggleSelectAll() {
-    if (this.selectAll) {
-      this.selected = []
-      this.selectAll = false
-    } else {
+  toggleSelectAll(isSelectedAll) {
+    if (isSelectedAll) {
       this.selected = _.map(this.data, v => v.id)
-      this.selectAll = true
+    } else {
+      this.selected.clear()
     }
   }
 })
@@ -234,6 +232,7 @@ HOC 可以相互组合使用，但是请注意使用顺序
   })
   .add('select', () => (
     <SelectTable
+      style={{ marginTop: '100px' }}
       data={store.data}
       columns={[
         {
@@ -250,15 +249,8 @@ HOC 可以相互组合使用，但是请注意使用顺序
         }
       ]}
       keyField='id'
-      selectAll={store.selectAll}
-      onSelectAll={() => store.toggleSelectAll()}
-      selectAllTip={
-        <div>
-          全选是否勾上,可能代表<span className='gm-text-red'>当前可见列表</span>
-          勾上，也可能代表<span className='gm-text-red'>所有页面数据</span>
-          勾上，具体由调用方确定。
-        </div>
-      }
+      onSelectAll={isSelectedAll => store.toggleSelectAll(isSelectedAll)}
+      batchActionBar={<div>ddfdsfdsfdsfsdfsdfsdfsdfsd</div>}
       selected={store.selected}
       onSelect={selected => store.setSelect(selected)}
     />

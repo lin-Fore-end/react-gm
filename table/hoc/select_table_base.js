@@ -1,0 +1,151 @@
+import React from 'react'
+import { Checkbox } from '../../src'
+import _ from 'lodash'
+import Table from '../table/base'
+import PropTypes from 'prop-types'
+
+const SelectInputComponent = props => {
+  return (
+    <Checkbox
+      value={props.id}
+      checked={props.checked}
+      onChange={() => {
+        props.onChange(props.id, props.row)
+      }}
+    />
+  )
+}
+
+SelectInputComponent.propTypes = {
+  id: PropTypes.string.isRequired,
+  checked: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  row: PropTypes.object.isRequired
+}
+
+export default (Component, options) => {
+  const wrapper = class RTSelectTable extends React.Component {
+    handleToggleSelection = key => {
+      const { selected, onSelect } = this.props
+
+      // 兼容 react-table@6.10.0
+      let result = key
+      if (_.isString(result) && result.startsWith('select-')) {
+        result = result.slice(7)
+      }
+
+      const newSelected = _.xor(selected, [result])
+      onSelect(newSelected)
+    }
+
+    handleToggleAll = isCurrentSelectedAll => {
+      const { onSelectAll } = this.props
+      onSelectAll(!isCurrentSelectedAll)
+    }
+
+    rowSelector = row => {
+      // eslint-disable-next-line no-prototype-builtins
+      if (!row || !row.hasOwnProperty(this.props.keyField)) return null
+
+      const { keyField, selected } = this.props
+      // 是否被选中
+      const checked = selected.includes(row[this.props.keyField])
+      const key = `select-${row[keyField]}`
+
+      return (
+        <Checkbox
+          value={key}
+          checked={checked}
+          onChange={this.handleToggleSelection.bind(this, key)}
+        />
+      )
+    }
+
+    headSelector = () => {
+      const { data, selected } = this.props
+
+      const checked = selected.length === data.length
+      const key = 'select-all'
+
+      return (
+        <Checkbox
+          value={key}
+          checked={checked}
+          onChange={this.handleToggleAll.bind(this, checked)}
+        />
+      )
+    }
+
+    // this is so we can expose the underlying ReactTable to get at the sortedData for selectAll
+    getWrappedInstance() {
+      if (!this.wrappedInstance)
+        console.warn('RTSelectTable - No wrapped instance')
+      if (this.wrappedInstance.getWrappedInstance)
+        return this.wrappedInstance.getWrappedInstance()
+      else return this.wrappedInstance
+    }
+
+    render() {
+      const {
+        columns: originalCols,
+        isSelected,
+        toggleSelection,
+        toggleAll,
+        keyField,
+        selectType,
+        selectWidth,
+        SelectAllInputComponent,
+        SelectInputComponent,
+        ...rest
+      } = this.props
+      const select = {
+        id: '_selector',
+        accessor: () => 'x', // this value is not important
+        Header: this.headSelector.bind(this),
+        Cell: ci => {
+          return this.rowSelector.bind(this)(ci.original)
+        },
+        width: selectWidth || 30,
+        filterable: false,
+        sortable: false,
+        resizable: false,
+        style: { textAlign: 'center' }
+      }
+
+      const columns =
+        options !== undefined && options.floatingLeft === true
+          ? [...originalCols, select]
+          : [select, ...originalCols]
+      const extra = {
+        columns
+      }
+      return (
+        <Component {...rest} {...extra} ref={r => (this.wrappedInstance = r)} />
+      )
+    }
+  }
+
+  wrapper.displayName = 'RTSelectTable'
+
+  wrapper.propTypes = {
+    ...Table.propTypes,
+
+    // select 专有
+    selected: PropTypes.array.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    onSelectAll: PropTypes.func.isRequired,
+    keyField: PropTypes.string
+  }
+
+  wrapper.defaultProps = {
+    keyField: 'value',
+    toggleSelection: (key, shift, row) => {
+      console.log('No toggleSelection handler provided:', { key, shift, row })
+    },
+    toggleAll: () => {
+      console.log('No toggleAll handler provided.')
+    }
+  }
+
+  return wrapper
+}
