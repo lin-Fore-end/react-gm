@@ -59,6 +59,8 @@ function selectTableHOC(Component) {
     onSelect: PropTypes.func.isRequired,
     onSelectAll: PropTypes.func.isRequired,
 
+    isSelectorDisable: PropTypes.func,
+
     batchActionBar: PropTypes.node
   }
 

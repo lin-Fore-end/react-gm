@@ -131,8 +131,8 @@ BaseTable.propTypes = {
 BaseTable.defaultProps = {
   /** 不使用自带的分页组件 */
   showPagination: false,
-  /** 目前没有意义 */
-  defaultPageSize: 10,
+  /** 第一列宽度 */
+  rowFirstColWidth: '50px',
   /** 没有数据的文案 */
   noDataText: getLocale('没有数据'),
   /** 加载中的文案 */

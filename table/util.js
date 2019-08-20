@@ -176,6 +176,8 @@ const referOfWidth = {
   dateSelectBox: 110
 }
 
+const firstTdWidth = 60
+
 export {
   getColumnKey,
   OperationHeader,
@@ -184,5 +186,6 @@ export {
   OperationCell,
   SortHeader,
   EditTableOperation,
-  referOfWidth
+  referOfWidth,
+  firstTdWidth
 }

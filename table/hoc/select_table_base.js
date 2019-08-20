@@ -1,27 +1,9 @@
 import React from 'react'
 import { Checkbox } from '../../src'
 import _ from 'lodash'
+import { firstTdWidth } from '../util'
 import Table from '../table/base'
 import PropTypes from 'prop-types'
-
-const SelectInputComponent = props => {
-  return (
-    <Checkbox
-      value={props.id}
-      checked={props.checked}
-      onChange={() => {
-        props.onChange(props.id, props.row)
-      }}
-    />
-  )
-}
-
-SelectInputComponent.propTypes = {
-  id: PropTypes.string.isRequired,
-  checked: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
-  row: PropTypes.object.isRequired
-}
 
 export default (Component, options) => {
   const wrapper = class RTSelectTable extends React.Component {
@@ -47,13 +29,15 @@ export default (Component, options) => {
       // eslint-disable-next-line no-prototype-builtins
       if (!row || !row.hasOwnProperty(this.props.keyField)) return null
 
-      const { keyField, selected } = this.props
-      // 是否被选中
-      const checked = selected.includes(row[this.props.keyField])
+      const { keyField, selected, isSelectorDisable } = this.props
+
+      const disabled = isSelectorDisable(row)
+      const checked = selected.includes(row[keyField])
       const key = `select-${row[keyField]}`
 
       return (
         <Checkbox
+          disabled={disabled}
           value={key}
           checked={checked}
           onChange={this.handleToggleSelection.bind(this, key)}
@@ -62,9 +46,10 @@ export default (Component, options) => {
     }
 
     headSelector = () => {
-      const { data, selected } = this.props
+      const { data, selected, isSelectorDisable } = this.props
 
-      const checked = selected.length === data.length
+      const checked =
+        selected.length === data.filter(row => !isSelectorDisable(row)).length
       const key = 'select-all'
 
       return (
@@ -94,8 +79,6 @@ export default (Component, options) => {
         keyField,
         selectType,
         selectWidth,
-        SelectAllInputComponent,
-        SelectInputComponent,
         ...rest
       } = this.props
       const select = {
@@ -105,7 +88,7 @@ export default (Component, options) => {
         Cell: ci => {
           return this.rowSelector.bind(this)(ci.original)
         },
-        width: selectWidth || 30,
+        width: selectWidth || firstTdWidth,
         filterable: false,
         sortable: false,
         resizable: false,
@@ -134,15 +117,17 @@ export default (Component, options) => {
     selected: PropTypes.array.isRequired,
     onSelect: PropTypes.func.isRequired,
     onSelectAll: PropTypes.func.isRequired,
+    isSelectorDisable: PropTypes.func,
     keyField: PropTypes.string
   }
 
   wrapper.defaultProps = {
     keyField: 'value',
-    toggleSelection: (key, shift, row) => {
-      console.log('No toggleSelection handler provided:', { key, shift, row })
+    isSelectorDisable: row => false,
+    onSelect: key => {
+      console.log('No toggleSelection handler provided:', { key })
     },
-    toggleAll: () => {
+    onSelectAll: () => {
       console.log('No toggleAll handler provided.')
     }
   }

@@ -16,6 +16,8 @@ const DiyTable = diyTableHOC(Table)
 const SelectTable = selectTableHOC(Table)
 const ExpandTable = expandTableHOC(Table)
 
+const isDisable = ({ total_money }) => total_money === 111 // 不能选的行
+
 const store = observable({
   data: [
     {
@@ -88,7 +90,7 @@ const store = observable({
   },
   toggleSelectAll(isSelectedAll) {
     if (isSelectedAll) {
-      this.selected = _.map(this.data, v => v.id)
+      this.selected = this.data.filter(v => !isDisable(v)).map(v => v.id)
     } else {
       this.selected.clear()
     }
@@ -249,6 +251,7 @@ HOC 可以相互组合使用，但是请注意使用顺序
         }
       ]}
       keyField='id'
+      isSelectorDisable={row => console.log(row) || isDisable(row)}
       onSelectAll={isSelectedAll => store.toggleSelectAll(isSelectedAll)}
       batchActionBar={<div>ddfdsfdsfdsfsdfsdfsdfsdfsd</div>}
       selected={store.selected}
