@@ -8,14 +8,6 @@ const Selector = props => {
 
   const colGroup = _.groupBy(cols, 'diyGroupName')
 
-  const handleCheck = (key, curShow) => {
-    const index = _.findIndex(cols, o => o.key === key)
-    const colsCopy = _.cloneDeep(cols)
-    colsCopy[index].show = !curShow
-
-    onColsChange(colsCopy)
-  }
-
   return (
     <div>
       {_.map(diyGroupSorting, groupName => {
@@ -36,7 +28,7 @@ const Selector = props => {
                         disabled={!diyEnable} // 不能编辑的字段,disable
                         checked={show}
                         onChange={() => {
-                          handleCheck(key, show)
+                          onColsChange(key, show)
                         }}
                       >
                         {text}

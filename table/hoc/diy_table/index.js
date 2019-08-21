@@ -28,8 +28,9 @@ function generateDiyColumns(propsColumns, mixColumns) {
     // localstorage中储存的列
     const localItem = _.find(mixColumns, v => v.key === key)
     // 只有diyEnable = true 的列才使用 本地存储的show值
-    if (diyEnable && localItem) {
+    if (localItem) {
       newColumn.show = localItem.show
+      newColumn.__sort_number = localItem.__sort_number
     }
     return newColumn
   })
@@ -38,8 +39,8 @@ function generateDiyColumns(propsColumns, mixColumns) {
 function getStorageColumns(columns) {
   // 过滤多余数据，避免复杂数据出现JSON循环引用报错问题
   return _.map(columns, col => {
-    const { key, show, diyEnable } = col
-    return { key, show, diyEnable }
+    const { key, show, diyEnable, __sort_number } = col
+    return { key, show, diyEnable, __sort_number }
   })
 }
 
@@ -119,7 +120,7 @@ function diyTableHOC(Component) {
               accessor: '_setting', // 不重要,随便写
               Cell: () => null // 只是用来占据空间
             },
-            ...columns
+            ..._.sortBy(columns, '__sort_number')
           ]}
         />
       )

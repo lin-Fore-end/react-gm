@@ -20,8 +20,8 @@ const SortList = ({ cols, onColsChange, onColsRemove }) => {
       return
     }
 
-    const items = reorder(cols, result.source.index, result.destination.index)
-    onColsChange(items)
+    const list = reorder(cols, result.source.index, result.destination.index)
+    onColsChange(list)
   }
 
   const onRemove = (key, e) => {

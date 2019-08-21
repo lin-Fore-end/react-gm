@@ -7,11 +7,28 @@ import PropTypes from 'prop-types'
 
 const DiyTableModal = ({ columns, onSave, diyGroupSorting }) => {
   const [diyCols, setDiyCols] = useState(columns)
-  const [showCols, setShowCols] = useState(_.filter(columns, 'show'))
+  const [showCols, setShowCols] = useState(
+    _.sortBy(columns.filter(o => o.show), '__sort_number')
+  )
 
-  const onColsChange = cols => {
-    setDiyCols(cols)
-    setShowCols(_.filter(cols, 'show'))
+  const onColsChange = (key, curShow) => {
+    const index = _.findIndex(diyCols, o => o.key === key)
+    const _diyCols = _.cloneDeep(diyCols)
+
+    const curItem = _diyCols[index]
+    curItem.show = !curShow
+
+    setDiyCols(_diyCols)
+
+    if (curItem.show) {
+      // 把当前项增加到排序列表中
+      setShowCols([...showCols, curItem])
+    } else {
+      // 把当前项从排序列表去掉
+      const _showCols = _.cloneDeep(showCols)
+      _.remove(_showCols, item => item.key === key)
+      setShowCols(_showCols)
+    }
   }
 
   const onSortColsChange = cols => {
@@ -19,14 +36,29 @@ const DiyTableModal = ({ columns, onSave, diyGroupSorting }) => {
   }
 
   const onColsRemove = key => {
-    const showColsCopy = _.cloneDeep(showCols)
-    _.remove(showColsCopy, o => o.key === key)
-    setShowCols(showColsCopy)
+    const _showCols = _.cloneDeep(showCols)
+    _.remove(_showCols, o => o.key === key)
+    setShowCols(_showCols)
 
     const index = _.findIndex(diyCols, o => o.key === key)
-    const colsCopy = _.cloneDeep(diyCols)
-    colsCopy[index].show = false
-    setDiyCols(colsCopy)
+    const _diyCols = _.cloneDeep(diyCols)
+    _diyCols[index].show = false
+    setDiyCols(_diyCols)
+  }
+
+  const handleSave = () => {
+    const columns = diyCols.map(col => {
+      // 当前在showCols的索引决定列的排序
+      const __sort_number = _.findIndex(showCols, v => v.key === col.key)
+      return {
+        ...col,
+        show: __sort_number > -1,
+        __sort_number: __sort_number * 100 // 放大100倍,使得有操作空间做插入排序
+      }
+    })
+
+    onSave(columns)
+    Modal.hide()
   }
 
   return (
@@ -54,13 +86,7 @@ const DiyTableModal = ({ columns, onSave, diyGroupSorting }) => {
         </div>
       </Flex>
       <Flex justifyEnd className='gm-padding-10'>
-        <button
-          className='btn btn-primary btn-sm'
-          onClick={() => {
-            onSave(diyCols)
-            Modal.hide()
-          }}
-        >
+        <button className='btn btn-primary btn-sm' onClick={handleSave}>
           保存
         </button>
         <div className='gm-gap-10' />
