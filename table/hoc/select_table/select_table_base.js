@@ -1,8 +1,8 @@
 import React from 'react'
-import { Checkbox } from '../../src'
+import { Checkbox } from '../../../src'
 import _ from 'lodash'
-import { firstTdWidth } from '../util'
-import Table from '../table/base'
+import { firstTdWidth } from '../../util'
+import Table from '../../table/base'
 import PropTypes from 'prop-types'
 
 export default (Component, options) => {
@@ -17,7 +17,7 @@ export default (Component, options) => {
       }
 
       const newSelected = _.xor(selected, [result])
-      onSelect(newSelected)
+      onSelect(newSelected, result)
     }
 
     handleToggleAll = isCurrentSelectedAll => {

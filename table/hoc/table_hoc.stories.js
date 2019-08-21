@@ -6,7 +6,8 @@ import {
   diyTableHOC,
   selectTableHOC,
   expandTableHOC,
-  SubTable
+  SubTable,
+  TableUtil
 } from '../index'
 import { observable } from 'mobx/lib/mobx'
 import _ from 'lodash'
@@ -70,7 +71,7 @@ const store = observable({
     }
   ],
   sortTimeType: 'asc',
-  selectAll: false,
+  isSelectAllPage: false,
   selected: [],
   sortTime() {
     this.data = _.sortBy(this.data, 'submit_time')
@@ -81,9 +82,12 @@ const store = observable({
       this.sortTimeType = 'asc'
     }
   },
+  toggleIsSelectAllPage(bool) {
+    this.isSelectAllPage = bool
+  },
   setSelect(selected) {
-    if (this.selectAll && selected.length !== this.data.length) {
-      this.selectAll = false
+    if (this.isSelectAllPage && selected.length !== this.data.length) {
+      this.isSelectAllPage = false
     }
 
     this.selected = selected
@@ -253,9 +257,28 @@ HOC 可以相互组合使用，但是请注意使用顺序
       keyField='id'
       isSelectorDisable={row => console.log(row) || isDisable(row)}
       onSelectAll={isSelectedAll => store.toggleSelectAll(isSelectedAll)}
-      batchActionBar={<div>ddfdsfdsfdsfsdfsdfsdfsdfsd</div>}
+      batchActionBar={
+        <TableUtil.BatchActionBar
+          toggleSelectAll={bool => store.toggleIsSelectAllPage(bool)}
+          batchActions={[
+            {
+              name: '批量删除',
+              onClick: () => window.alert('批量删除' + store.selected.join(','))
+            },
+            {
+              name: '批量修改单价',
+              onClick: () =>
+                window.alert('批量修改这些' + store.selected.join(','))
+            }
+          ]}
+          count={store.isSelectAllPage ? 100 : store.selected.length}
+          isSelectAll={store.isSelectAllPage}
+        />
+      }
       selected={store.selected}
-      onSelect={selected => store.setSelect(selected)}
+      onSelect={(selected, curKey) =>
+        console.log(curKey) || store.setSelect(selected)
+      }
     />
   ))
   .add('expand', () => (

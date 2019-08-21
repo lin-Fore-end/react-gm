@@ -117,8 +117,8 @@ class BaseTable extends React.Component {
 }
 
 BaseTable.propTypes = {
-  // 主要
   loading: PropTypes.bool,
+  /** 表格数据 */
   data: PropTypes.array.isRequired,
   columns: PropTypes.array.isRequired,
   className: PropTypes.string,
@@ -131,8 +131,6 @@ BaseTable.propTypes = {
 BaseTable.defaultProps = {
   /** 不使用自带的分页组件 */
   showPagination: false,
-  /** 第一列宽度 */
-  rowFirstColWidth: '50px',
   /** 没有数据的文案 */
   noDataText: getLocale('没有数据'),
   /** 加载中的文案 */

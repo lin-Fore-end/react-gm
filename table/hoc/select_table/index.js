@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import baseSelectTableHoc from './select_table_base'
-import Table from '../table'
-import SVGRemove from '../../svg/remove.svg'
+import Table from '../../table'
+import { Flex } from '../../../src'
+import SVGRemove from '../../../svg/remove.svg'
 
 function selectTableHOC(Component) {
   // 先包一层 hocSelectTable
@@ -13,10 +14,10 @@ function selectTableHOC(Component) {
       isBarShow: false
     }
 
-    handleSelect = selected => {
+    handleSelect = (selected, curKey) => {
       this.setState({ isBarShow: selected.length > 0 })
 
-      this.props.onSelect(selected)
+      this.props.onSelect(selected, curKey)
     }
 
     handleSelectAll = isSelectedAll => {
@@ -39,10 +40,13 @@ function selectTableHOC(Component) {
             keyField={keyField}
           />
           {isBarShow && batchActionBar && (
-            <div className='gm-react-table-select-all-tip'>
-              <SVGRemove onClick={() => this.setState({ isBarShow: false })} />
+            <Flex className='gm-react-table-select-all-tip' alignCenter>
+              <SVGRemove
+                onClick={() => this.setState({ isBarShow: false })}
+                className='gm-cursor'
+              />
               {batchActionBar}
-            </div>
+            </Flex>
           )}
         </div>
       )
@@ -52,7 +56,6 @@ function selectTableHOC(Component) {
   SelectTable.propTypes = {
     ...Table.propTypes,
 
-    // select 专有
     keyField: PropTypes.string,
     selected: PropTypes.array.isRequired,
 
@@ -60,7 +63,7 @@ function selectTableHOC(Component) {
     onSelectAll: PropTypes.func.isRequired,
 
     isSelectorDisable: PropTypes.func,
-
+    /** 自定义批量操作栏 */
     batchActionBar: PropTypes.node
   }
 
