@@ -113,11 +113,15 @@ export default (Component, options) => {
   wrapper.propTypes = {
     ...Table.propTypes,
 
-    // select 专有
+    /** 被选中项数组[keyField] */
     selected: PropTypes.array.isRequired,
+    /** 选中一行的回调 */
     onSelect: PropTypes.func.isRequired,
+    /** 选中所有行的回调 */
     onSelectAll: PropTypes.func.isRequired,
+    /** 每一行的CheckBox的disable设置行数 */
     isSelectorDisable: PropTypes.func,
+    /** 自定义被选中项的id */
     keyField: PropTypes.string
   }
 

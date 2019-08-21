@@ -100,6 +100,7 @@ function expandTableHOC(Component) {
 
   ExpandTable.propTypes = {
     ...Table.propTypes,
+    /** 子Table */
     SubComponent: PropTypes.func.isRequired
   }
 

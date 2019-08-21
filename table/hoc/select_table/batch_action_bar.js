@@ -42,9 +42,13 @@ const BatchActionBar = props => {
 }
 
 BatchActionBar.propTypes = {
+  /** 是否选中所有页 */
   isSelectAll: PropTypes.bool.isRequired,
+  /** 选中多少项 */
   count: PropTypes.number,
+  /** 批量操作按钮 */
   batchActions: PropTypes.array,
+  /** 所有页/当前页 切换函数 */
   toggleSelectAll: PropTypes.func
 }
 
