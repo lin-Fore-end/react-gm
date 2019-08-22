@@ -240,12 +240,14 @@
     .gm-react-table-diy-modal-sort-list-ul {
       list-style-type: none;
       padding: 0;
+      margin: 30px 0;
+      max-height: 400px;
+      overflow: auto;
 
       .gm-react-table-diy-modal-sort-list-li {
         position: relative;
         user-select: none;
-        padding: 8px;
-        margin: 0 0 8px 0;
+        padding: 5px;
 
         &:before {
           content: '\2022'; //圆点
@@ -255,8 +257,10 @@
 
         .gm-react-table-diy-modal-sort-list-li-remove {
           position: absolute;
-          top: 12px;
+          top: 10px;
           right: 15px;
+          width: 14px;
+          height: 14px;
         }
       }
 

@@ -52,8 +52,8 @@ const DiyTableModal = ({ columns, onSave, diyGroupSorting }) => {
       const __sort_number = _.findIndex(showCols, v => v.key === col.key)
       return {
         ...col,
-        show: __sort_number > -1,
-        __sort_number: __sort_number * 100 // 放大100倍,使得有操作空间做插入排序
+        show: __sort_number > -1, // 大于-1才会显示
+        __sort_number: (__sort_number + 1) * 100 // 从100开始,100, 200, 300, ...如此类推
       }
     })
 

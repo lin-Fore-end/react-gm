@@ -188,8 +188,47 @@ HOC 可以相互组合使用，但是请注意使用顺序
         <DiyTable
           id='diy-table'
           data={store.data}
-          diyGroupSorting={['基础字段', '商户', '其他', '时间和人员']} // 组的排序
+          diyGroupSorting={['基础字段', '时间和人员']} // 组的排序,必须diyGroupName一一对应
           columns={[
+            {
+              Header: '入库单号',
+              accessor: 'id',
+              diyEnable: false, // 是否可以自定义,不写的话默认为true
+              show: false, // 是否展示当前列,不写的话默认为true
+              diyGroupName: '基础字段', // 组名
+              __sort_number: 400 // 列初始顺序,序号约定从100开始, 100, 200, 300, ...如此类推
+            },
+            {
+              Header: '价格',
+              accessor: 'sku_money',
+              diyEnable: false,
+              diyGroupName: '基础字段',
+              __sort_number: 100
+            },
+            {
+              Header: '状态',
+              accessor: 'status',
+              diyGroupName: '基础字段',
+              __sort_number: 300
+            },
+            {
+              Header: '供应商户ID',
+              accessor: 'supplier_customer_id',
+              diyGroupName: '基础字段',
+              __sort_number: 200
+            },
+            {
+              Header: '供应商信息',
+              accessor: 'supplier_name',
+              diyGroupName: '基础字段'
+            },
+            ..._.map(Array(20), (e, i) => ({
+              Header: '删除时间' + i,
+              accessor: 'date_time' + i,
+              diyEnable: true,
+              show: true,
+              diyGroupName: '时间和人员'
+            })),
             {
               Header: '删除时间',
               accessor: 'date_time',
@@ -202,34 +241,6 @@ HOC 可以相互组合使用，但是请注意使用顺序
               accessor: 'settle_supplier_id',
               diyEnable: true,
               diyGroupName: '时间和人员'
-            },
-            {
-              Header: '状态',
-              accessor: 'status',
-              // diyEnable 不写也可以,默认true,
-              diyGroupName: '其他'
-            },
-            {
-              Header: '入库单号',
-              accessor: 'id',
-              diyEnable: false,
-              diyGroupName: '基础字段'
-            },
-            {
-              Header: '价格',
-              accessor: 'sku_money',
-              diyEnable: false,
-              diyGroupName: '基础字段'
-            },
-            {
-              Header: '供应商户ID',
-              accessor: 'supplier_customer_id',
-              diyGroupName: '商户'
-            },
-            {
-              Header: '供应商信息',
-              accessor: 'supplier_name',
-              diyGroupName: '商户'
             }
           ]}
         />
