@@ -4,7 +4,7 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Storage, Modal, Popover } from '../../../src'
 import SVGSetting from '../../../svg/setting.svg'
-import { getColumnKey, firstTdWidth } from '../../util'
+import { getColumnKey, referOfWidth } from '../../util'
 import Table from '../../table'
 import { devWarn } from '../../../src/util'
 import DiyTableModal from './diy_table_modal'
@@ -119,7 +119,7 @@ function diyTableHOC(Component) {
                   />
                 </Popover>
               ),
-              maxWidth: firstTdWidth,
+              maxWidth: referOfWidth.noCell,
               accessor: '_setting', // 不重要,随便写
               Cell: () => null // 只是用来占据空间
             },

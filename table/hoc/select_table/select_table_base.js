@@ -1,7 +1,7 @@
 import React from 'react'
 import { Checkbox } from '../../../src'
 import _ from 'lodash'
-import { firstTdWidth } from '../../util'
+import { referOfWidth } from '../../util'
 import Table from '../../table/base'
 import PropTypes from 'prop-types'
 
@@ -88,7 +88,7 @@ export default (Component, options) => {
         Cell: ci => {
           return this.rowSelector.bind(this)(ci.original)
         },
-        width: selectWidth || firstTdWidth,
+        width: selectWidth || referOfWidth.noCell,
         filterable: false,
         sortable: false,
         resizable: false,

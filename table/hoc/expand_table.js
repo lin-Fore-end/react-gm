@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import Table from '../table'
-import { firstTdWidth } from '../util'
+import { referOfWidth } from '../util'
 import SVGExpand from '../../svg/expand.svg'
 import SVGCloseup from '../../svg/closeup.svg'
 
@@ -87,7 +87,7 @@ function expandTableHOC(Component) {
               expander: true,
               Header: this.renderHeader,
               Expander: this.renderExpander,
-              width: firstTdWidth
+              width: referOfWidth.noCell
             },
             ...columns
           ]}
