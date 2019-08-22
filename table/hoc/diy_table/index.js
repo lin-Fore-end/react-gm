@@ -60,7 +60,7 @@ function diyTableHOC(Component) {
       devWarn(() => {
         _.each(props.columns, column => {
           const key = getColumnKey(column)
-          if (key && column.diyEnable !== false) {
+          if (key) {
             if (!_.isString(column.Header) && !column.diyItemText) {
               console.error('column need diyItemText', column)
             }

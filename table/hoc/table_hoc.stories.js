@@ -188,7 +188,7 @@ HOC 可以相互组合使用，但是请注意使用顺序
         <DiyTable
           id='diy-table'
           data={store.data}
-          diyGroupSorting={['基础字段', '时间和人员']} // 组的排序,必须diyGroupName一一对应
+          diyGroupSorting={['基础字段', '时间和人员', '操作']} // 组的排序,必须diyGroupName一一对应
           columns={[
             {
               Header: '入库单号',
@@ -222,25 +222,30 @@ HOC 可以相互组合使用，但是请注意使用顺序
               accessor: 'supplier_name',
               diyGroupName: '基础字段'
             },
-            ..._.map(Array(20), (e, i) => ({
-              Header: '删除时间' + i,
+            ..._.map(Array(5), (e, i) => ({
+              Header: '删除项目' + i,
               accessor: 'date_time' + i,
               diyEnable: true,
               show: true,
               diyGroupName: '时间和人员'
             })),
             {
-              Header: '删除时间',
-              accessor: 'date_time',
-              diyEnable: true,
-              show: false,
-              diyGroupName: '时间和人员'
-            },
-            {
               Header: '建单时间',
               accessor: 'settle_supplier_id',
               diyEnable: true,
               diyGroupName: '时间和人员'
+            },
+            {
+              Header: TableUtil.OperationHeader,
+              diyItemText: '操作', // 操作栏要提供diyItemName
+              id: 'action', // id作为唯一标识
+              diyGroupName: '操作',
+              diyEnable: false,
+              Cell: () => (
+                <TableUtil.OperationCell>
+                  <a href='#'>删除</a>
+                </TableUtil.OperationCell>
+              )
             }
           ]}
         />
