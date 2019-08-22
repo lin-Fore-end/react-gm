@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 
 const Selector = props => {
   const { cols, onColsChange, diyGroupSorting } = props
-
   const colGroup = _.groupBy(cols, 'diyGroupName')
 
   return (

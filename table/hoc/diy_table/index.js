@@ -1,4 +1,5 @@
 import React from 'react'
+import { getLocale } from '../../../locales'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Storage, Modal, Popover } from '../../../src'
@@ -27,7 +28,7 @@ function generateDiyColumns(propsColumns, mixColumns) {
 
     // localstorage中储存的列
     const localItem = _.find(mixColumns, v => v.key === key)
-    // 只有diyEnable = true 的列才使用 本地存储的show值
+    // localstorage的值覆盖初始值
     if (localItem) {
       newColumn.show = localItem.show
       newColumn.__sort_number = localItem.__sort_number
@@ -55,7 +56,7 @@ function diyTableHOC(Component) {
         columns: generateDiyColumns(props.columns, localColumns)
       }
 
-      // 检测
+      // 检测,如果不符合,警告调用方
       devWarn(() => {
         _.each(props.columns, column => {
           const key = getColumnKey(column)
@@ -80,7 +81,7 @@ function diyTableHOC(Component) {
     handleModalShow = () => {
       Modal.render({
         disableMaskClose: true,
-        title: '表头设置',
+        title: getLocale('表头设置'),
         noContentPadding: true,
         size: 'lg',
         onHide: Modal.hide,
@@ -106,7 +107,9 @@ function diyTableHOC(Component) {
                 <Popover
                   top
                   arrowLeft='2px'
-                  popup={<div className='gm-padding-5'>表头设置</div>}
+                  popup={
+                    <div className='gm-padding-5'>{getLocale('表头设置')}</div>
+                  }
                   showArrow
                   type='hover'
                 >

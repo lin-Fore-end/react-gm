@@ -1,5 +1,6 @@
 import React from 'react'
 import { Flex } from '../../../src'
+import { getLocale } from '../../../locales'
 import PropTypes from 'prop-types'
 
 const BatchActionBar = props => {
@@ -11,19 +12,21 @@ const BatchActionBar = props => {
           className='btn btn-primary gm-margin-left-20'
           onClick={() => toggleSelectAll(false)}
         >
-          勾选当前页内容
+          {getLocale('勾选当前页内容')}
         </button>
       ) : (
         <button
           className='btn btn-primary gm-margin-left-20'
           onClick={() => toggleSelectAll(true)}
         >
-          勾选所有页内容
+          {getLocale('勾选所有页内容')}
         </button>
       )}
       {count && (
         <div className='gm-text-bold gm-margin-left-20'>
-          已选择<span className='text-primary'>{count}</span>项
+          {getLocale('已选择')}
+          <span className='text-primary'>{count}</span>
+          {getLocale('项')}
         </div>
       )}
       {batchActions.length && <div className='gm-margin-left-20'>|</div>}
