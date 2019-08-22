@@ -10,12 +10,16 @@ import {
   TableUtil
 } from '../index'
 import { observable } from 'mobx/lib/mobx'
+import { Observer } from 'mobx-react'
 import _ from 'lodash'
 
 const FixedColumnsTable = fixedColumnsTableHOC(Table)
 const DiyTable = diyTableHOC(Table)
 const SelectTable = selectTableHOC(Table)
 const ExpandTable = expandTableHOC(Table)
+
+const ExpandSelectTable = selectTableHOC(ExpandTable)
+const SelectSubTable = selectTableHOC(SubTable)
 
 const isDisable = ({ total_money }) => total_money === 111 // 不能选的行
 
@@ -33,7 +37,7 @@ const store = observable({
       delta_money: 0,
       settle_supplier_id: 'T10953',
       address: null,
-      subTable: [{ id: 1, name: 'a' }, { id: 2, name: 2 }]
+      subTable: [{ id: '5', name: 'a222' }, { id: '6', name: 2222 }]
     },
     {
       total_money: 176,
@@ -50,7 +54,7 @@ const store = observable({
         value: 9,
         text: '西乡9'
       },
-      subTable: [{ id: 1, name: 'a' }, { id: 2, name: 2 }]
+      subTable: [{ id: '1', name: 'a' }, { id: '2', name: 2 }]
     },
     {
       total_money: 279,
@@ -67,7 +71,7 @@ const store = observable({
         value: 4,
         text: '宝安'
       },
-      subTable: [{ id: 1, name: 'a' }, { id: 2, name: 2 }]
+      subTable: [{ id: '3', name: 'a' }, { id: '4', name: 2 }]
     }
   ],
   sortTimeType: 'asc',
@@ -93,10 +97,33 @@ const store = observable({
     this.selected = selected
   },
   toggleSelectAll(isSelectedAll) {
+    console.log(isSelectedAll)
     if (isSelectedAll) {
       this.selected = this.data.filter(v => !isDisable(v)).map(v => v.id)
     } else {
       this.selected.clear()
+    }
+  },
+  // 子表操作
+  subTableSelected: {},
+  toggleSubAll(index, isSelectedAll) {
+    const parent = this.data[index]
+    if (isSelectedAll) {
+      this.subTableSelected = {
+        ...this.subTableSelected,
+        [parent.id]: parent.subTable.map(o => o.id)
+      }
+    } else {
+      this.subTableSelected = {
+        ...this.subTableSelected,
+        [parent.id]: []
+      }
+    }
+  },
+  setSubSelect(parentId, selected) {
+    this.subTableSelected = {
+      ...this.subTableSelected,
+      [parentId]: selected
     }
   }
 })
@@ -322,6 +349,72 @@ HOC 可以相互组合使用，但是请注意使用顺序
             { Header: '名字', accessor: 'name' }
           ]}
         />
+      )}
+    />
+  ))
+  .add('expand_select组合', () => (
+    <ExpandSelectTable
+      data={store.data}
+      columns={[
+        {
+          Header: '建单时间',
+          accessor: 'submit_time'
+        },
+        {
+          Header: '入库单号',
+          accessor: 'id'
+        },
+        {
+          Header: '供应商信息',
+          accessor: 'supplier_name'
+        }
+      ]}
+      keyField='id'
+      isSelectorDisable={row => console.log(row) || isDisable(row)}
+      onSelectAll={isSelectedAll => store.toggleSelectAll(isSelectedAll)}
+      batchActionBar={
+        <TableUtil.BatchActionBar
+          toggleSelectAll={bool => store.toggleIsSelectAllPage(bool)}
+          batchActions={[
+            {
+              name: '批量删除',
+              onClick: () => window.alert('批量删除' + store.selected.join(','))
+            },
+            {
+              name: '批量修改单价',
+              onClick: () =>
+                window.alert('批量修改这些' + store.selected.join(','))
+            }
+          ]}
+          count={store.isSelectAllPage ? 100 : store.selected.length}
+          isSelectAll={store.isSelectAllPage}
+        />
+      }
+      selected={store.selected}
+      onSelect={(selected, curKey) =>
+        console.log(curKey) || store.setSelect(selected)
+      }
+      SubComponent={item => (
+        <Observer>
+          {() => {
+            const selected = store.subTableSelected[item.row.id] || []
+            return (
+              <SelectSubTable
+                data={item.original.subTable}
+                columns={[
+                  { Header: '序号', accessor: 'id' },
+                  { Header: '名字', accessor: 'name' }
+                ]}
+                keyField='id'
+                onSelectAll={store.toggleSubAll.bind(store, item.index)}
+                selected={selected.slice()}
+                onSelect={(selected, curKey) =>
+                  store.setSubSelect(item.row.id, selected)
+                }
+              />
+            )
+          }}
+        </Observer>
       )}
     />
   ))

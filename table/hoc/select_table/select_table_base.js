@@ -91,8 +91,7 @@ export default (Component, options) => {
         width: selectWidth || referOfWidth.noCell,
         filterable: false,
         sortable: false,
-        resizable: false,
-        style: { textAlign: 'center' }
+        resizable: false
       }
 
       const columns =
